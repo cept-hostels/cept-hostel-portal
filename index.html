@@ -1,1 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CEPT University — Hostel Allocation Portal AY 2026–27</title>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--navy:#1a3a5c;--navy-light:#e8f0f8;--navy-mid:#2c5282;--green:#276749;--green-bg:#d4edda;--amber:#856404;--amber-bg:#fff3cd;--amber-bdr:#ffc107;--red:#721c24;--red-bg:#f8d7da;--border:#dee2e6;--border-lt:#f0f0f0;--text:#1a1a2e;--muted:#6c757d;--light:#adb5bd;--bg:#f4f6f9;--card:#fff;--r:8px;--rl:12px;--shadow:0 1px 3px rgba(0,0,0,0.08)}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
 
+    .hdr{background:#fff;border-bottom:3px solid #f0f0f0}
+    .hdr-top{display:flex;align-items:center;justify-content:space-between;max-width:860px;margin:0 auto;padding:10px 16px;gap:12px;flex-wrap:wrap}
+    .hdr-brand{display:flex;align-items:center;gap:14px}
+    .logo-text{line-height:1}.logo-text .l1{font-size:22px;font-weight:700;color:#4a4a4a;letter-spacing:2px;display:block}.logo-text .l2{font-size:10px;font-weight:500;color:var(--navy-mid);letter-spacing:3.5px;display:block}
+    .hdr-div{width:1px;height:32px;background:var(--border)}
+    .hdr-title{font-weight:600;font-size:14px;color:var(--navy)}.hdr-sub{font-size:11px;color:var(--muted)}
+    .seat-ctr{display:flex;gap:8px}
+    .seat-box{background:var(--navy-light);border:1px solid #b8d4f0;border-radius:var(--r);padding:5px 14px;text-align:center;min-width:72px}
+    .seat-n{font-size:18px;font-weight:700;color:var(--navy)}.seat-l{font-size:10px;color:var(--navy-mid)}
+    .nav-stripe{background:var(--navy);padding:7px 16px}
+    .nav-inner{max-width:860px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+    .nav-inner span{font-size:12px;color:rgba(255,255,255,.8)}
+    .nav-tag{background:rgba(255,255,255,.15);border-radius:4px;padding:2px 10px;font-size:11px;color:rgba(255,255,255,.9)}
+    .main{max-width:860px;margin:0 auto;padding:22px 16px 50px}
+
+    .prog-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--rl);padding:12px 18px;margin-bottom:20px;box-shadow:var(--shadow)}
+    .prog-steps{display:flex;align-items:center}
+    .prog-item{display:flex;align-items:center;gap:5px;flex-shrink:0}
+    .prog-line{flex:1;height:2px;background:var(--border);margin:0 8px;transition:background .3s}.prog-line.done{background:var(--green)}
+    .dot{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;border:2px solid var(--border);background:#fff;color:var(--muted);transition:all .25s;flex-shrink:0}
+    .dot.active{border-color:var(--navy);background:var(--navy);color:#fff}.dot.done{border-color:var(--green);background:var(--green);color:#fff}
+    .dot-lbl{font-size:11px;color:var(--muted);white-space:nowrap;font-weight:500}.dot-lbl.active{color:var(--navy);font-weight:700}
+
+    .card{background:var(--card);border:1px solid var(--border);border-radius:var(--rl);padding:18px 20px;margin-bottom:12px;box-shadow:var(--shadow)}
+    .card-t{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.7px;margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid var(--border-lt)}
+    .sh{font-size:20px;font-weight:600;margin-bottom:4px;color:var(--navy)}.ss{font-size:13px;color:var(--muted);margin-bottom:18px}
+
+    label{font-size:12px;color:var(--muted);margin-bottom:4px;font-weight:600;display:block}
+    input[type=text],input[type=tel],select{border:1.5px solid var(--border);border-radius:var(--r);padding:9px 12px;font-size:14px;font-family:inherit;color:var(--text);background:#fafafa;width:100%;transition:border-color .15s,box-shadow .15s}
+    input:focus,select:focus{outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(26,58,92,.1);background:#fff}
+    .f-err{border-color:#dc3545!important;background:#fff8f8!important}
+    .err-msg{font-size:11px;color:#dc3545;margin-top:4px;min-height:16px}
+
+    .btn{padding:10px 20px;border-radius:var(--r);font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:all .15s;display:inline-flex;align-items:center;gap:6px}
+    .btn-p{background:var(--navy);color:#fff}.btn-p:hover{background:#142e4a}.btn-p:disabled{opacity:.35;cursor:not-allowed}
+    .btn-o{background:#fff;border:1.5px solid var(--border);color:var(--muted)}.btn-o:hover{border-color:var(--navy);color:var(--navy);background:var(--navy-light)}
+    .btn-block{width:100%;justify-content:center}
+    .btn-row{display:flex;justify-content:space-between;align-items:center;margin-top:18px}
+
+    .alert{border-radius:var(--r);padding:10px 14px;font-size:12px;margin-bottom:12px;line-height:1.5}
+    .alert-e{background:var(--red-bg);border:1px solid rgba(114,28,36,.15);color:var(--red);display:none}
+    .alert-w{background:var(--amber-bg);border:1px solid var(--amber-bdr);color:var(--amber)}
+    .alert-i{background:var(--navy-light);border:1px solid #b8d4f0;color:var(--navy)}
+    .alert-g{background:#eaf3de;border:1px solid #c0dd97;color:#3b6d11}
+    .alert-s{background:var(--green-bg);border:1px solid #c3e6cb;color:var(--green)}
+
+    .profile{background:var(--navy-light);border-radius:var(--r);padding:12px 16px;margin-bottom:14px}
+    .profile-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px 16px;font-size:12px}
+    .profile-k{color:var(--muted);font-size:10px;text-transform:uppercase;font-weight:500}.profile-v{font-weight:600;color:var(--navy)}
+
+    .hc{border:1.5px solid var(--border);border-radius:var(--rl);margin-bottom:12px;overflow:hidden;box-shadow:var(--shadow)}
+    .hc-hdr{background:#f8fafc;padding:10px 14px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+    .hc-badge{background:var(--navy);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.5px;flex-shrink:0}
+    .hc-name{font-size:15px;font-weight:700}.hc-loc{font-size:11px;color:var(--muted);margin-top:1px}
+    .hc-loc a{color:var(--navy-mid);text-decoration:none}.hc-loc a:hover{text-decoration:underline}
+    .room-list{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+    .rt{border:1.5px solid var(--border);border-radius:var(--r);padding:12px;display:flex;gap:14px;align-items:flex-start;cursor:pointer;transition:all .15s}
+    .rt:hover:not(.rt-full){border-color:var(--navy);background:var(--navy-light)}
+    .rt.rt-sel{border:2.5px solid var(--navy);background:var(--navy-light);box-shadow:0 0 0 3px rgba(26,58,92,.1)}
+    .rt.rt-full{opacity:.45;cursor:not-allowed}
+    .rt-img{width:110px;height:76px;background:#f0f0f0;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid var(--border);overflow:hidden}
+    .rt-img img{width:100%;height:100%;object-fit:cover}
+    .rt-label{font-weight:600;font-size:13px;color:var(--navy)}.rt-desc{font-size:11px;color:var(--muted);margin-bottom:6px}
+    .pill{font-size:10px;font-weight:600;padding:2px 8px;border-radius:20px;flex-shrink:0}
+    .pill-g{background:var(--green-bg);color:var(--green)}.pill-a{background:var(--amber-bg);color:var(--amber)}.pill-r{background:var(--red-bg);color:var(--red)}
+    .sel-bar{background:var(--navy-light);border:1.5px solid var(--navy);border-radius:var(--r);padding:10px 14px;font-size:13px;color:var(--navy);margin:10px 0;display:none;align-items:center;gap:8px}.sel-bar.vis{display:flex}
+    .timer-inline{display:none;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:4px 10px;background:var(--amber-bg);border-radius:var(--r);border:1px solid var(--amber-bdr);color:var(--amber)}.timer-inline.vis{display:inline-flex}
+
+    .timer-box{text-align:center;padding:8px 16px;border-radius:var(--r);border:1.5px solid;min-width:96px;flex-shrink:0}
+    .timer-box.ok{background:var(--amber-bg);border-color:var(--amber-bdr)}.timer-box.urg{background:var(--red-bg);border-color:#f5c6cb}
+    .t-digits{font-size:26px;font-weight:700;font-family:'Courier New',monospace;letter-spacing:1px}.t-digits.ok{color:#c17f1a}.t-digits.urg{color:#c0392b}
+    .t-label{font-size:10px;font-weight:600;color:var(--muted);margin-bottom:2px}
+
+    .pg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+    .pr{display:flex;justify-content:space-between;font-size:13px;padding:4px 0;border-bottom:1px solid var(--border-lt)}.pr:last-child{border-bottom:none}
+    .pr-k{color:var(--muted);flex-shrink:0;padding-right:10px}.pr-v{font-weight:600;text-align:right}
+    .pr-mono{font-family:'Courier New',monospace;font-weight:500;font-size:12px}
+    .pr-total{display:flex;justify-content:space-between;font-size:15px;font-weight:700;padding:10px 0 0;border-top:2px solid var(--border);margin-top:6px;color:var(--navy)}
+    .payee-box{background:var(--navy-light);border-radius:var(--r);padding:8px 12px;margin-bottom:10px}
+    .payee-l{font-size:10px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:2px}.payee-n{font-size:13px;font-weight:600;color:var(--navy)}
+
+    .uz{border:2px dashed var(--border);border-radius:var(--r);padding:20px 14px;text-align:center;cursor:pointer;transition:all .2s;background:#fafafa;position:relative}
+    .uz:hover{border-color:var(--navy);background:var(--navy-light)}.uz.upl{border-color:var(--green);background:var(--green-bg);border-style:solid}
+    .uz input{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer}
+    .uz-icon{font-size:28px;margin-bottom:6px;display:block}.uz-text{font-size:12px;color:var(--muted);line-height:1.5}.uz-text.done{color:var(--green);font-weight:600}
+
+    .qr-box{display:flex;flex-direction:column;align-items:center;padding:14px;border:1px dashed var(--border);border-radius:var(--r);background:var(--bg);margin-top:10px}
+    .qr-img{width:150px;height:150px;background:#fff;padding:4px;border:1px solid var(--border);border-radius:4px}
+    .qr-caption{font-size:10px;color:var(--muted);margin-top:6px}
+
+    .cc{text-align:center;padding:28px 24px}
+    .cc-icon{width:60px;height:60px;border-radius:50%;background:var(--green-bg);border:2px solid #a3cfbb;display:flex;align-items:center;justify-content:center;font-size:28px;margin:0 auto 16px}
+    .ref-chip{display:inline-block;background:var(--navy-light);border:1.5px solid var(--navy);border-radius:var(--r);padding:7px 16px;font-family:'Courier New',monospace;font-size:13px;letter-spacing:.5px;color:var(--navy);font-weight:600;margin:8px 0 18px}
+    .stbl{width:100%;border-collapse:collapse;text-align:left}.stbl tr{border-bottom:1px solid var(--border-lt)}.stbl td{padding:6px 4px;font-size:13px}.stbl td:first-child{color:var(--muted);font-weight:600;width:140px;font-size:12px}
+    .st-pill{display:inline-block;padding:2px 10px;border-radius:20px;font-size:11px;font-weight:600;background:var(--amber-bg);color:var(--amber)}
+
+    .login-box{max-width:400px;margin:40px auto}
+    .login-box .form-group{margin-bottom:16px}
+    .footer{text-align:center;padding:16px;font-size:11px;color:var(--muted);margin-top:30px;border-top:1px solid var(--border)}
+    .screen{display:none;animation:fadeIn .3s ease}.screen.active{display:block}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+    .expired-box{text-align:center;padding:36px 20px}
+
+    .overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.85);z-index:2000;display:none;align-items:center;justify-content:center;flex-direction:column;gap:12px}.overlay.vis{display:flex}
+    .spinner{width:36px;height:36px;border:3.5px solid var(--navy-light);border-top-color:var(--navy);border-radius:50%;animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .overlay-txt{font-size:13px;font-weight:600;color:var(--navy)}
+
+    .maint{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:5000;display:none;align-items:center;justify-content:center;padding:24px}.maint.vis{display:flex}
+    .maint-box{max-width:460px;background:var(--card);padding:36px;border-radius:var(--rl);box-shadow:0 10px 25px rgba(0,0,0,.05);border-top:5px solid var(--navy);text-align:center}
+
+    @media(max-width:600px){.pg{grid-template-columns:1fr}.dot-lbl{display:none}.hdr-div{display:none}.rt{flex-direction:column}.rt-img{width:100%;height:120px}.profile-grid{grid-template-columns:1fr 1fr}}
+  </style>
+</head>
+<body>
+
+<!-- MAINTENANCE OVERLAY -->
+<div id="maint" class="maint">
+  <div class="maint-box">
+    <div style="font-size:48px;margin-bottom:14px">⚙️</div>
+    <h1 style="font-size:20px;font-weight:600;color:var(--navy);margin-bottom:10px">Portal temporarily offline</h1>
+    <p id="maint-msg" style="font-size:14px;color:var(--muted);line-height:1.6">This portal is currently offline for maintenance. Please contact hostels@cept.ac.in for urgent queries.</p>
+  </div>
+</div>
+
+<!-- LOADING OVERLAY -->
+<div id="loader" class="overlay">
+  <div class="spinner"></div>
+  <div id="loader-txt" class="overlay-txt">Loading portal...</div>
+</div>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-top">
+    <div class="hdr-brand">
+      <div class="logo-text"><span class="l1">CEPT</span><span class="l2">UNIVERSITY</span></div>
+      <div class="hdr-div"></div>
+      <div><div class="hdr-title">Hostel allocation portal</div><div class="hdr-sub">AY 2026–27</div></div>
+    </div>
+    <div class="seat-ctr">
+      <div class="seat-box"><div class="seat-n" id="pg-seats">—</div><div class="seat-l">PG seats</div></div>
+      <div class="seat-box"><div class="seat-n" id="ug-seats">—</div><div class="seat-l">UG seats</div></div>
+    </div>
+  </div>
+  <div class="nav-stripe"><div class="nav-inner">
+    <span>First-come-first-serve. All hostel options open simultaneously</span>
+    <span class="nav-tag">AY 2026–27</span>
+  </div></div>
+</header>
+
+<main class="main">
+
+<!-- PROGRESS BAR -->
+<div class="prog-wrap"><div class="prog-steps">
+  <div class="prog-item"><div class="dot active" id="d1">1</div><span class="dot-lbl active" id="l1">Login</span></div><div class="prog-line" id="ln1"></div>
+  <div class="prog-item"><div class="dot" id="d2">2</div><span class="dot-lbl" id="l2">Choose room</span></div><div class="prog-line" id="ln2"></div>
+  <div class="prog-item"><div class="dot" id="d3">3</div><span class="dot-lbl" id="l3">Payment</span></div><div class="prog-line" id="ln3"></div>
+  <div class="prog-item"><div class="dot" id="d4">4</div><span class="dot-lbl" id="l4">Submitted</span></div>
+</div></div>
+
+<!-- ═══ SCREEN 1: LOGIN ═══ -->
+<div id="screen-1" class="screen active">
+  <div class="card login-box">
+    <div class="card-t" style="text-align:center;margin-bottom:20px">Applicant login</div>
+    <div id="e-login" class="alert alert-e"></div>
+    <div class="form-group" style="margin-bottom:16px">
+      <label>Application ID</label>
+      <input type="text" id="f-appid" placeholder="e.g. CEPT26PG0001" style="text-transform:uppercase">
+    </div>
+    <div class="form-group" style="margin-bottom:20px">
+      <label>Registered mobile number</label>
+      <input type="tel" id="f-mobile" placeholder="10-digit number" maxlength="10">
+    </div>
+    <button class="btn btn-p btn-block" onclick="onLogin()">Verify & continue →</button>
+    <div class="alert alert-i" style="margin-top:16px;margin-bottom:0">Enter the Application ID and mobile number from your CEPT admission letter. Only admitted students can access this portal.</div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN 2: CHOOSE ROOM ═══ -->
+<div id="screen-2" class="screen">
+  <!-- Profile summary -->
+  <div class="profile">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <div style="font-weight:600;color:var(--navy);font-size:14px" id="p-name">—</div>
+      <span class="timer-inline" id="timer2">🔒 <span id="t2">15:00</span></span>
+    </div>
+    <div class="profile-grid">
+      <div><div class="profile-k">Application ID</div><div class="profile-v" id="p-id">—</div></div>
+      <div><div class="profile-k">Program</div><div class="profile-v" id="p-prog">—</div></div>
+      <div><div class="profile-k">Category</div><div class="profile-v" id="p-type">—</div></div>
+    </div>
+  </div>
+
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:4px">
+    <div><div class="sh">Available rooms</div><p class="ss" id="s2-sub" style="margin-bottom:0">Select a room to lock it for 15 minutes.</p></div>
+  </div>
+  <div class="alert alert-g" style="margin-top:8px">Semester fee shown for reference. You pay only the <strong>₹15,000 refundable deposit</strong> now.</div>
+  <div id="e-sel" class="alert alert-e" style="margin-top:0"></div>
+  <div id="hostel-list"></div>
+  <div class="sel-bar" id="sel-bar">✔ Selected: <strong id="sel-name"></strong> · <strong id="sel-room"></strong> · <strong>₹15,000</strong> deposit</div>
+  <div class="btn-row">
+    <button class="btn btn-o" onclick="onLogout()">← Log out</button>
+    <button class="btn btn-p" id="btn-proceed" onclick="goToStep3()" disabled>Proceed to payment →</button>
+  </div>
+</div>
+
+<!-- ═══ SCREEN 3: PAYMENT ═══ -->
+<div id="screen-3" class="screen">
+  <div class="expired-box card" id="expired-box" style="display:none">
+    <div style="font-size:48px;margin-bottom:12px">⏰</div>
+    <div class="sh" style="font-size:16px;margin-bottom:6px">Your seat lock has expired</div>
+    <p style="color:var(--muted);font-size:13px;max-width:400px;margin:0 auto 18px">The 15-minute window has passed. Please go back and select a room — availability may have changed.</p>
+    <button class="btn btn-p" onclick="onExpiredBack()">Back to room selection</button>
+  </div>
+  <div id="pay-form">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:14px">
+      <div><div class="sh">Complete your payment</div><p class="ss" style="margin-bottom:0">Transfer the deposit and upload proof before the timer runs out.</p></div>
+      <div class="timer-box ok" id="timer-box"><div class="t-label">Seat locked for</div><div class="t-digits ok" id="t3">15:00</div></div>
+    </div>
+    <div class="pg">
+      <div class="card" style="margin-bottom:0">
+        <div class="card-t">Reservation summary</div>
+        <div class="pr"><span class="pr-k">Hostel</span><span class="pr-v" id="pay-hostel">—</span></div>
+        <div class="pr"><span class="pr-k">Room type</span><span class="pr-v" id="pay-room">—</span></div>
+        <div class="pr"><span class="pr-k">Semester fee</span><span class="pr-v" id="pay-sem" style="color:var(--muted)">—</span></div>
+        <div class="pr"><span class="pr-k">Deposit</span><span class="pr-v" id="pay-dep">—</span></div>
+        <div class="pr-total"><span>Pay now</span><span id="pay-total">—</span></div>
+      </div>
+      <div class="card" style="margin-bottom:0">
+        <div class="card-t">Transfer to</div>
+        <div class="payee-box"><div class="payee-l">Pay to</div><div class="payee-n" id="b-payee">—</div></div>
+        <div class="pr"><span class="pr-k">Bank</span><span class="pr-v pr-mono" id="b-bank">—</span></div>
+        <div class="pr"><span class="pr-k">Branch</span><span class="pr-v pr-mono" id="b-branch">—</span></div>
+        <div class="pr"><span class="pr-k">Account</span><span class="pr-v pr-mono" id="b-acct">—</span></div>
+        <div class="pr" style="border-bottom:none"><span class="pr-k">IFSC</span><span class="pr-v pr-mono" id="b-ifsc">—</span></div>
+        <div class="alert alert-w" style="margin-top:10px;margin-bottom:0" id="b-note"></div>
+        <div class="qr-box" id="qr-box" style="display:none"><img id="qr-img" src="" class="qr-img" alt="UPI QR code"><div class="qr-caption">Scan to pay via UPI</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-t">Upload payment confirmation</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+        <div>
+          <label>UTR / transaction reference *</label>
+          <input type="text" id="f-txn" placeholder="e.g. UTR123456789012">
+          <div class="err-msg" id="e-txn"></div>
+          <div style="font-size:11px;color:var(--light);margin-top:4px">From your banking app or SMS confirmation.</div>
+        </div>
+        <div>
+          <label>Payment screenshot or PDF *</label>
+          <div class="uz" id="uz">
+            <input type="file" id="f-file" accept="image/*,.pdf" onchange="onFile(this)">
+            <span class="uz-icon" id="uz-icon">📤</span>
+            <div class="uz-text" id="uz-text">Click to upload<br><span style="font-size:10px">JPG, PNG or PDF · Max 5 MB</span></div>
+          </div>
+          <div class="err-msg" id="e-file"></div>
+        </div>
+      </div>
+    </div>
+    <div id="e-submit" class="alert alert-e" style="margin-top:0"></div>
+    <div class="alert alert-i">ℹ️ After submission, the CEPT team will verify your deposit within <strong>24 working hours</strong>. You will receive a confirmation email with details about semester fee payment.</div>
+    <div class="btn-row">
+      <button class="btn btn-o" onclick="onCancelLock()">← Change room</button>
+      <button class="btn btn-p" id="btn-submit" onclick="onSubmit()">Submit payment proof →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCREEN 4: SUBMITTED ═══ -->
+<div id="screen-4" class="screen">
+  <div class="card"><div class="cc">
+    <div class="cc-icon">🕐</div>
+    <div class="sh" style="margin-bottom:6px">Application submitted successfully</div>
+    <p style="font-size:13px;color:var(--muted);max-width:460px;margin:0 auto 4px">Your deposit proof has been received. The CEPT team will verify your payment within <strong>24 working hours</strong>.</p>
+    <div class="ref-chip" id="c-ref">CEPT/—</div>
+    <div style="max-width:440px;margin:0 auto;text-align:left"><table class="stbl" id="c-tbl"></table></div>
+    <div class="alert alert-i" style="max-width:440px;margin:14px auto 0;text-align:left">📧 Acknowledgement sent to <strong id="c-email">—</strong><br><span style="font-size:11px">Copy sent to hostels@cept.ac.in</span></div>
+    <div class="alert alert-w" style="max-width:440px;margin:8px auto 0;text-align:left">⚠️ Allocation is <strong>not confirmed</strong> until you receive a verification email from hostels@cept.ac.in.</div>
+    <div class="alert alert-g" style="max-width:440px;margin:8px auto 0;text-align:left" id="c-next"></div>
+    <button class="btn btn-o" style="margin-top:20px" onclick="onLogout()">↻ Start new session</button>
+  </div></div>
+</div>
+
+</main>
+<div class="footer">CEPT University · hostels@cept.ac.in · AY 2026–27</div>
+
+<script>
+const API='YOUR_APPS_SCRIPT_URL_HERE';
+
+let db=null, student=null, selection=null;
+let timerInterval=null, lockExpiryTime=null;
+let fileB64='', fileName='';
+
+// ═══ INIT ═══
+window.addEventListener('DOMContentLoaded', ()=>{
+  showLoader('Loading portal...');
+  fetch(API+'?action=getAll').then(r=>r.json()).then(d=>{
+    if(d.status==='offline'){document.getElementById('maint-msg').textContent=d.message||'';document.getElementById('maint').classList.add('vis');hideLoader();return;}
+    db=d;
+    if(db.pgSeats!==undefined)document.getElementById('pg-seats').textContent=db.pgSeats;
+    if(db.ugSeats!==undefined)document.getElementById('ug-seats').textContent=db.ugSeats;
+    // Populate deposit details
+    if(db.deposit){const dp=db.deposit;document.getElementById('b-payee').textContent=dp.payeeName||'';document.getElementById('b-bank').textContent=dp.bankName||'';document.getElementById('b-branch').textContent=dp.branch||'';document.getElementById('b-acct').textContent=dp.accountNumber||'';document.getElementById('b-ifsc').textContent=dp.ifscCode||'';document.getElementById('b-note').textContent='⚠ '+(dp.paymentNote||'');}
+    if(db.qrCodeDataUri){document.getElementById('qr-img').src=db.qrCodeDataUri;document.getElementById('qr-box').style.display='flex';}
+    hideLoader();
+  }).catch(e=>{console.error(e);hideLoader();alert('Unable to connect to the portal server. Please refresh the page and try again.');});
+});
+
+function showLoader(t){document.getElementById('loader-txt').textContent=t;document.getElementById('loader').classList.add('vis');}
+function hideLoader(){document.getElementById('loader').classList.remove('vis');}
+
+// ═══ PROGRESS ═══
+function updateProgress(step){
+  for(let i=1;i<=4;i++){
+    const d=document.getElementById('d'+i),l=document.getElementById('l'+i);d.className='dot';l.className='dot-lbl';
+    if(i<step){d.className+=' done';d.textContent='✓';}else if(i===step){d.className+=' active';d.textContent=i;l.className+=' active';}else d.textContent=i;
+    if(i<4)document.getElementById('ln'+i).className='prog-line'+(i<step?' done':'');
+  }
+}
+function goScreen(n){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+n).classList.add('active');
+  updateProgress(n);window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ═══ SCREEN 1: LOGIN ═══
+function onLogin(){
+  const appId=document.getElementById('f-appid').value.trim().toUpperCase();
+  const mobile=document.getElementById('f-mobile').value.trim();
+  const err=document.getElementById('e-login');
+  err.style.display='none';
+  if(!appId||!mobile){err.textContent='Please enter both your Application ID and registered mobile number.';err.style.display='block';return;}
+  if(!/^\d{10}$/.test(mobile)){err.textContent='Please enter a valid 10-digit mobile number.';err.style.display='block';return;}
+
+  showLoader('Verifying your details...');
+  fetch(API,{method:'POST',body:JSON.stringify({action:'validateStudent',applicationId:appId,mobile:mobile})})
+  .then(r=>r.json()).then(res=>{
+    if(res.status==='offline'){document.getElementById('maint-msg').textContent=res.message||'';document.getElementById('maint').classList.add('vis');hideLoader();return;}
+    if(res.status==='error'){err.textContent=res.message;err.style.display='block';hideLoader();return;}
+
+    student=res.profile;
+    document.getElementById('p-name').textContent=student.studentName;
+    document.getElementById('p-id').textContent=student.applicationId;
+    document.getElementById('p-prog').textContent=student.program;
+    document.getElementById('p-type').textContent=student.studentType;
+    document.getElementById('s2-sub').textContent='Showing hostels for '+student.studentType.replace('New ','').replace('Girls','Female').replace('Boys','Male')+'. Click a room to lock it for 15 minutes.';
+
+    // Session bridge: if student has an active lock, resume
+    if(res.status==='bridge'&&res.lockDetails){
+      selection={hostelId:res.lockDetails.hostelId,roomCode:res.lockDetails.roomCode};
+      lockExpiryTime=new Date(res.lockDetails.expiresAt);
+      document.getElementById('c-ref').textContent=res.lockDetails.refId||'';
+      startTimerFromExpiry();
+      populatePaymentScreen();
+      hideLoader();goScreen(3);
+    } else {
+      renderHostels();hideLoader();goScreen(2);
+    }
+  }).catch(e=>{console.error(e);hideLoader();err.textContent='Unable to verify your details. Please check your internet connection and try again.';err.style.display='block';});
+}
+
+function onLogout(){
+  if(timerInterval)clearInterval(timerInterval);
+  student=null;selection=null;lockExpiryTime=null;fileB64='';fileName='';
+  document.getElementById('f-appid').value='';document.getElementById('f-mobile').value='';
+  document.getElementById('e-login').style.display='none';
+  document.getElementById('btn-proceed').disabled=true;
+  document.getElementById('sel-bar').classList.remove('vis');
+  document.getElementById('timer2').classList.remove('vis');
+  // Refresh data
+  fetch(API+'?action=getAll').then(r=>r.json()).then(d=>{if(d.status==='ok')db=d;}).catch(()=>{});
+  goScreen(1);
+}
+
+// ═══ SCREEN 2: ROOM SELECTION ═══
+function renderHostels(){
+  const container=document.getElementById('hostel-list');container.innerHTML='';
+  if(!db||!student)return;
+  const cfg=db.config,elig=db.eligibility,inv=db.inventory,type=student.studentType;
+
+  // Group by hostel
+  let grouped={};
+  for(let k in cfg){
+    if(!elig[k]||!elig[k][type])continue;
+    const c=cfg[k];const invKey=c.hostelId+'_'+c.roomCode+'_'+type;
+    const av=(inv[invKey]||{}).available||0;
+    if(!grouped[c.hostelId])grouped[c.hostelId]={name:c.hostelName,mapsUrl:c.mapsUrl,rooms:[]};
+    grouped[c.hostelId].rooms.push({config:c,available:av});
+  }
+
+  const keys=Object.keys(grouped);
+  if(!keys.length){container.innerHTML='<div class="card" style="text-align:center;padding:36px;color:var(--muted)"><div style="font-size:36px;margin-bottom:10px">🏠</div><div style="font-weight:600;margin-bottom:6px">No hostels available</div><div style="font-size:13px">No options available for your category. Contact hostels@cept.ac.in</div></div>';return;}
+
+  keys.forEach(hId=>{
+    const h=grouped[hId];
+    const locLink=h.mapsUrl&&!h.mapsUrl.startsWith('←')?'<a href="'+h.mapsUrl+'" target="_blank" rel="noopener">📍 Near University</a>':'📍 Near University';
+    let tilesHtml=h.rooms.map(r=>{
+      const full=r.available<=0;
+      const isSel=selection&&selection.hostelId===r.config.hostelId&&selection.roomCode===r.config.roomCode;
+      const pill=full?'<span class="pill pill-r">Full</span>':r.available<=4?'<span class="pill pill-a">'+r.available+' left</span>':'<span class="pill pill-g">'+r.available+' available</span>';
+      const img=r.config.imageUrl&&!r.config.imageUrl.startsWith('←')?'<img src="'+r.config.imageUrl+'" alt="'+r.config.roomLabel+'">':'<span style="color:var(--light);font-size:20px">📷</span>';
+      const cls='rt'+(full?' rt-full':'')+(isSel?' rt-sel':'');
+      const handler=full?'':'onclick="selectRoom(\''+r.config.hostelId+'\',\''+r.config.roomCode+'\')"';
+      const sem=r.config.semesterFee>0?'₹'+r.config.semesterFee.toLocaleString('en-IN'):'TBC';
+      return '<div class="'+cls+'" id="tile-'+r.config.hostelId+'-'+r.config.roomCode+'" '+handler+'><div class="rt-img">'+img+'</div><div style="flex:1;min-width:0"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;gap:8px"><span class="rt-label">'+r.config.roomLabel+'</span>'+pill+'</div><div class="rt-desc">'+r.config.description+'</div><div style="display:flex;gap:14px;align-items:baseline"><div><div style="font-size:10px;color:var(--light)">Semester fee</div><div style="font-size:14px;font-weight:600;color:var(--muted)">'+sem+'</div></div><div style="width:1px;height:24px;background:var(--border)"></div><div><div style="font-size:10px;color:var(--green)">Pay now</div><div style="font-size:14px;font-weight:600;color:var(--green)">₹15,000 deposit</div></div></div></div></div>';
+    }).join('');
+    container.innerHTML+='<div class="hc"><div class="hc-hdr"><div style="display:flex;align-items:center;gap:8px"><div class="hc-badge">'+hId+'</div><div><div class="hc-name">'+h.name+'</div><div class="hc-loc">'+locLink+'</div></div></div></div><div class="room-list">'+tilesHtml+'</div></div>';
+  });
+}
+
+function selectRoom(hostelId,roomCode){
+  document.querySelectorAll('.rt').forEach(el=>el.classList.remove('rt-sel'));
+  document.getElementById('tile-'+hostelId+'-'+roomCode)?.classList.add('rt-sel');
+
+  const k=hostelId+'_'+roomCode;
+  const cfg=db.config[k];
+  selection={hostelId,roomCode};
+  document.getElementById('sel-name').textContent=cfg.hostelName;
+  document.getElementById('sel-room').textContent=cfg.roomLabel;
+  document.getElementById('sel-bar').classList.add('vis');
+  document.getElementById('btn-proceed').disabled=false;
+
+  // LOCK IMMEDIATELY (Approach A)
+  showLoader('Securing your room...');
+  fetch(API,{method:'POST',body:JSON.stringify({
+    action:'lockSeat',applicationId:student.applicationId,hostelId,roomCode,
+    studentType:student.studentType,studentName:student.studentName,
+    email:student.email,mobile:student.mobile,level:student.level,
+    program:student.program,gender:student.gender
+  })}).then(r=>r.json()).then(res=>{
+    hideLoader();
+    if(res.status==='error'){
+      alert(res.message);selection=null;
+      document.getElementById('btn-proceed').disabled=true;
+      document.getElementById('sel-bar').classList.remove('vis');
+      document.querySelectorAll('.rt').forEach(el=>el.classList.remove('rt-sel'));
+      // Refresh availability
+      fetch(API+'?action=getInventory').then(r=>r.json()).then(d=>{if(d.status==='ok'){db.inventory=d.inventory;renderHostels();}});
+      return;
+    }
+    lockExpiryTime=new Date(res.expiresAt);
+    startTimerFromExpiry();
+    document.getElementById('c-ref').textContent=res.refId||'';
+  }).catch(e=>{
+    hideLoader();console.warn('Lock API failed, starting timer locally');
+    lockExpiryTime=new Date(Date.now()+15*60*1000);startTimerFromExpiry();
+  });
+}
+
+// ═══ TIMER ═══
+function startTimerFromExpiry(){
+  if(timerInterval)clearInterval(timerInterval);
+  function tick(){
+    const ms=lockExpiryTime-new Date();
+    if(ms<=0){clearInterval(timerInterval);onTimerExpired();return;}
+    const s=Math.floor(ms/1000),m=Math.floor(s/60),ss=s%60;
+    const txt=String(m).padStart(2,'0')+':'+String(ss).padStart(2,'0');
+    const urg=s<180;
+    document.getElementById('t2').textContent=txt;
+    const t2el=document.getElementById('timer2');t2el.classList.add('vis');
+    t2el.style.background=urg?'var(--red-bg)':'var(--amber-bg)';t2el.style.borderColor=urg?'#f5c6cb':'var(--amber-bdr)';t2el.style.color=urg?'var(--red)':'var(--amber)';
+    document.getElementById('t3').textContent=txt;document.getElementById('t3').className='t-digits '+(urg?'urg':'ok');
+    document.getElementById('timer-box').className='timer-box '+(urg?'urg':'ok');
+  }
+  tick();timerInterval=setInterval(tick,1000);
+}
+
+function onTimerExpired(){
+  if(document.getElementById('screen-3').classList.contains('active')){
+    document.getElementById('pay-form').style.display='none';document.getElementById('expired-box').style.display='block';
+  } else {
+    alert('Your 15-minute seat lock has expired. Please select a room again.');
+    selection=null;document.getElementById('btn-proceed').disabled=true;
+    document.getElementById('sel-bar').classList.remove('vis');document.getElementById('timer2').classList.remove('vis');
+    fetch(API+'?action=getInventory').then(r=>r.json()).then(d=>{if(d.status==='ok'){db.inventory=d.inventory;renderHostels();}}).catch(()=>renderHostels());
+  }
+}
+
+function onExpiredBack(){
+  selection=null;document.getElementById('btn-proceed').disabled=true;
+  document.getElementById('sel-bar').classList.remove('vis');document.getElementById('timer2').classList.remove('vis');
+  fetch(API+'?action=getInventory').then(r=>r.json()).then(d=>{if(d.status==='ok'){db.inventory=d.inventory;renderHostels();}}).catch(()=>renderHostels());
+  goScreen(2);
+}
+
+// ═══ SCREEN 3: PAYMENT ═══
+function goToStep3(){
+  if(!selection)return;
+  populatePaymentScreen();
+  resetUploadState();
+  document.getElementById('pay-form').style.display='block';
+  document.getElementById('expired-box').style.display='none';
+  goScreen(3);
+}
+
+function populatePaymentScreen(){
+  const k=selection.hostelId+'_'+selection.roomCode;
+  const cfg=db.config[k]||{};
+  document.getElementById('pay-hostel').textContent=cfg.hostelName||selection.hostelId;
+  document.getElementById('pay-room').textContent=cfg.roomLabel||selection.roomCode;
+  document.getElementById('pay-sem').textContent=cfg.semesterFee>0?'₹'+cfg.semesterFee.toLocaleString('en-IN')+' (payable later)':'TBC';
+  document.getElementById('pay-dep').textContent='₹15,000';
+  document.getElementById('pay-total').textContent='₹15,000';
+}
+
+function onCancelLock(){
+  if(!confirm('Going back will release your room lock. You can select a different room on the next screen. Continue?'))return;
+  showLoader('Releasing room lock...');
+  fetch(API,{method:'POST',body:JSON.stringify({action:'releaseSeat',applicationId:student.applicationId})})
+  .then(()=>{
+    if(timerInterval)clearInterval(timerInterval);
+    selection=null;document.getElementById('btn-proceed').disabled=true;
+    document.getElementById('sel-bar').classList.remove('vis');document.getElementById('timer2').classList.remove('vis');
+    fetch(API+'?action=getInventory').then(r=>r.json()).then(d=>{if(d.status==='ok'){db.inventory=d.inventory;renderHostels();}hideLoader();goScreen(2);}).catch(()=>{hideLoader();renderHostels();goScreen(2);});
+  }).catch(()=>{hideLoader();goScreen(2);});
+}
+
+function resetUploadState(){
+  fileB64='';fileName='';
+  document.getElementById('uz').classList.remove('upl');
+  document.getElementById('uz-icon').textContent='📤';
+  document.getElementById('uz-text').className='uz-text';
+  document.getElementById('uz-text').innerHTML='Click to upload<br><span style="font-size:10px">JPG, PNG or PDF · Max 5 MB</span>';
+  document.getElementById('f-txn').value='';
+  document.getElementById('e-txn').textContent='';
+  document.getElementById('e-file').textContent='';
+  document.getElementById('e-submit').style.display='none';
+}
+
+// ═══ FILE UPLOAD + COMPRESSION ═══
+function onFile(input){
+  document.getElementById('e-file').textContent='';
+  if(!input.files||!input.files[0])return;
+  const file=input.files[0];
+  if(file.size>5*1024*1024){document.getElementById('e-file').textContent='File must be under 5 MB.';input.value='';return;}
+
+  document.getElementById('uz').classList.add('upl');
+  document.getElementById('uz-icon').textContent='⏳';
+  document.getElementById('uz-text').className='uz-text done';
+  document.getElementById('uz-text').textContent='Processing: '+file.name;
+  fileName=file.name;
+
+  if(file.type==='application/pdf'){
+    const reader=new FileReader();
+    reader.onload=e=>{fileB64=e.target.result.split(',')[1];document.getElementById('uz-icon').textContent='✅';document.getElementById('uz-text').textContent=file.name;};
+    reader.readAsDataURL(file);
+  } else if(file.type.startsWith('image/')){
+    compressImage(file);
+  } else {
+    document.getElementById('e-file').textContent='Please upload a JPG, PNG, or PDF file.';input.value='';
+    document.getElementById('uz').classList.remove('upl');document.getElementById('uz-icon').textContent='📤';
+  }
+}
+
+function compressImage(file){
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const img=new Image();
+    img.onload=()=>{
+      const canvas=document.createElement('canvas');
+      let w=img.width,h=img.height;const max=1600;
+      if(w>max||h>max){if(w>h){h=Math.round(h*max/w);w=max;}else{w=Math.round(w*max/h);h=max;}}
+      canvas.width=w;canvas.height=h;
+      canvas.getContext('2d').drawImage(img,0,0,w,h);
+      fileB64=canvas.toDataURL('image/jpeg',0.8).split(',')[1];
+      document.getElementById('uz-icon').textContent='✅';
+      document.getElementById('uz-text').textContent=fileName+' (optimised)';
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// ═══ SUBMIT ═══
+function onSubmit(){
+  const txn=document.getElementById('f-txn').value.trim();
+  const errBox=document.getElementById('e-submit');
+  document.getElementById('e-txn').textContent='';document.getElementById('e-file').textContent='';errBox.style.display='none';
+  let ok=true;
+  if(!txn){document.getElementById('e-txn').textContent='Transaction reference is required.';ok=false;}
+  if(!fileB64){document.getElementById('e-file').textContent='Please upload your payment screenshot or PDF.';ok=false;}
+  if(!ok)return;
+
+  showLoader('Submitting your application...');
+  fetch(API,{method:'POST',body:JSON.stringify({
+    action:'submitApplication',applicationId:student.applicationId,
+    txnRef:txn,fileBase64:fileB64,fileName:fileName
+  })}).then(r=>r.json()).then(res=>{
+    hideLoader();
+    if(res.status==='error'){errBox.textContent=res.message;errBox.style.display='block';return;}
+    if(timerInterval)clearInterval(timerInterval);
+    const refId=res.refId||res.referenceId||document.getElementById('c-ref').textContent;
+    document.getElementById('c-ref').textContent=refId;
+    document.getElementById('c-email').textContent=student.email;
+
+    const k=selection.hostelId+'_'+selection.roomCode;
+    const cfg=db.config[k]||{};
+    const rows=[
+      ['Student',student.studentName],['Application ID',student.applicationId],
+      ['Category',student.studentType.replace('New ','').replace('Girls','Female').replace('Boys','Male')],
+      ['Hostel',cfg.hostelName||selection.hostelId],['Room type',cfg.roomLabel||selection.roomCode],
+      ['Semester fee',cfg.semesterFee>0?'₹'+cfg.semesterFee.toLocaleString('en-IN')+' <span style="font-size:11px;color:var(--muted)">(after confirmation)</span>':'TBC'],
+      ['Deposit paid','<strong>₹15,000</strong>'],
+      ['Transaction ref','<span style="font-family:monospace">'+txn+'</span>'],
+      ['Submitted at',new Date().toLocaleString('en-IN')],
+      ['Status','<span class="st-pill">⏳ Pending verification</span>']
+    ];
+    document.getElementById('c-tbl').innerHTML=rows.map(([k,v])=>'<tr><td>'+k+'</td><td>'+v+'</td></tr>').join('');
+    document.getElementById('c-next').innerHTML='📋 <strong>After confirmation:</strong> you will receive an email from the '+(cfg.contactName||cfg.hostelName||'hostel')+' team regarding the payment process for semester fees and other details.';
+    goScreen(4);
+  }).catch(e=>{hideLoader();console.error(e);errBox.textContent='Unable to submit your application. Please check your internet connection and try again.';errBox.style.display='block';});
+}
+</script>
+</body>
+</html>
