@@ -205,10 +205,10 @@
   <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:4px">
     <div><div class="sh">Available rooms</div><p class="ss" id="s2-sub" style="margin-bottom:0">Select a room to lock it for 15 minutes.</p></div>
   </div>
-  <div class="alert alert-g" style="margin-top:8px">Semester fee shown for reference. You pay only the <strong>₹15,000 refundable deposit</strong> now.</div>
+  <div class="alert alert-g" style="margin-top:8px">Semester fee shown for reference. You pay only the <strong>₹15,000 Hostel Seat Secure Fee</strong> now.</div>
   <div id="e-sel" class="alert alert-e" style="margin-top:0"></div>
   <div id="hostel-list"></div>
-  <div class="sel-bar" id="sel-bar">✔ Selected: <strong id="sel-name"></strong> · <strong id="sel-room"></strong> · <strong>₹15,000</strong> deposit</div>
+  <div class="sel-bar" id="sel-bar">✔ Selected: <strong id="sel-name"></strong> · <strong id="sel-room"></strong> · <strong>₹15,000</strong> Hostel Seat Secure Fee</div>
   <div class="btn-row">
     <button class="btn btn-o" onclick="onLogout()">← Log out</button>
     <button class="btn btn-p" id="btn-proceed" onclick="goToStep3()" disabled>Proceed to payment →</button>
@@ -413,7 +413,7 @@ function renderHostels(){
       const cls='rt'+(full?' rt-full':'')+(isSel?' rt-sel':'');
       const handler=full?'':'onclick="selectRoom(\''+r.config.hostelId+'\',\''+r.config.roomCode+'\')"';
       const sem=r.config.semesterFee>0?'₹'+r.config.semesterFee.toLocaleString('en-IN'):'TBC';
-      return '<div class="'+cls+'" id="tile-'+r.config.hostelId+'-'+r.config.roomCode+'" '+handler+'><div class="rt-img">'+img+'</div><div style="flex:1;min-width:0"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;gap:8px"><span class="rt-label">'+r.config.roomLabel+'</span>'+pill+'</div><div class="rt-desc">'+r.config.description+'</div><div style="display:flex;gap:14px;align-items:baseline"><div><div style="font-size:10px;color:var(--light)">Semester fee</div><div style="font-size:14px;font-weight:600;color:var(--muted)">'+sem+'</div></div><div style="width:1px;height:24px;background:var(--border)"></div><div><div style="font-size:10px;color:var(--green)">Pay now</div><div style="font-size:14px;font-weight:600;color:var(--green)">₹15,000 deposit</div></div></div></div></div>';
+      return '<div class="'+cls+'" id="tile-'+r.config.hostelId+'-'+r.config.roomCode+'" '+handler+'><div class="rt-img">'+img+'</div><div style="flex:1;min-width:0"><div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;gap:8px"><span class="rt-label">'+r.config.roomLabel+'</span>'+pill+'</div><div class="rt-desc">'+r.config.description+'</div><div style="display:flex;gap:14px;align-items:baseline"><div><div style="font-size:10px;color:var(--light)">Semester fee</div><div style="font-size:14px;font-weight:600;color:var(--muted)">'+sem+'</div></div><div style="width:1px;height:24px;background:var(--border)"></div><div><div style="font-size:10px;color:var(--green)">Pay now</div><div style="font-size:14px;font-weight:600;color:var(--green)">₹15,000 seat secure fee</div></div></div></div></div>';
     }).join('');
     container.innerHTML+='<div class="hc"><div class="hc-hdr"><div style="display:flex;align-items:center;gap:8px"><div class="hc-badge">'+hId+'</div><div><div class="hc-name">'+h.name+'</div><div class="hc-loc">'+locLink+'</div></div></div></div><div class="room-list">'+tilesHtml+'</div></div>';
   });
