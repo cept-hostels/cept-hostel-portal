@@ -225,7 +225,7 @@
   </div>
   <div id="pay-form">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:14px">
-      <div><div class="sh">Complete your payment</div><p class="ss" style="margin-bottom:0">Transfer the deposit and upload proof before the timer runs out.</p></div>
+      <div><div class="sh">Complete your payment</div><p class="ss" style="margin-bottom:0">Transfer the seat secure fee and upload proof before the timer runs out.</p></div>
       <div class="timer-box ok" id="timer-box"><div class="t-label">Seat locked for</div><div class="t-digits ok" id="t3">15:00</div></div>
     </div>
     <div class="pg">
@@ -234,7 +234,7 @@
         <div class="pr"><span class="pr-k">Hostel</span><span class="pr-v" id="pay-hostel">—</span></div>
         <div class="pr"><span class="pr-k">Room type</span><span class="pr-v" id="pay-room">—</span></div>
         <div class="pr"><span class="pr-k">Semester fee</span><span class="pr-v" id="pay-sem" style="color:var(--muted)">—</span></div>
-        <div class="pr"><span class="pr-k">Deposit</span><span class="pr-v" id="pay-dep">—</span></div>
+        <div class="pr"><span class="pr-k">Seat Secure Fee</span><span class="pr-v" id="pay-dep">—</span></div>
         <div class="pr-total"><span>Pay now</span><span id="pay-total">—</span></div>
       </div>
       <div class="card" style="margin-bottom:0">
@@ -269,7 +269,7 @@
       </div>
     </div>
     <div id="e-submit" class="alert alert-e" style="margin-top:0"></div>
-    <div class="alert alert-i">ℹ️ After submission, the CEPT team will verify your deposit within <strong>24 working hours</strong>. You will receive a confirmation email with details about semester fee payment.</div>
+    <div class="alert alert-i">ℹ️ After submission, the CEPT team will verify your seat secure fee within <strong>24 working hours</strong>. You will receive a confirmation email with details about semester fee payment.</div>
     <div class="btn-row">
       <button class="btn btn-o" onclick="onCancelLock()">← Change room</button>
       <button class="btn btn-p" id="btn-submit" onclick="onSubmit()">Submit payment proof →</button>
@@ -282,7 +282,7 @@
   <div class="card"><div class="cc">
     <div class="cc-icon">🕐</div>
     <div class="sh" style="margin-bottom:6px">Application submitted successfully</div>
-    <p style="font-size:13px;color:var(--muted);max-width:460px;margin:0 auto 4px">Your deposit proof has been received. The CEPT team will verify your payment within <strong>24 working hours</strong>.</p>
+    <p style="font-size:13px;color:var(--muted);max-width:460px;margin:0 auto 4px">Your seat secure fee proof has been received. The CEPT team will verify your payment within <strong>24 working hours</strong>.</p>
     <div class="ref-chip" id="c-ref">CEPT/—</div>
     <div style="max-width:440px;margin:0 auto;text-align:left"><table class="stbl" id="c-tbl"></table></div>
     <div class="alert alert-i" style="max-width:440px;margin:14px auto 0;text-align:left">📧 Acknowledgement sent to <strong id="c-email">—</strong></div>
@@ -611,7 +611,7 @@ function onSubmit(){
       ['Category',student.studentType.replace('New ','').replace('Girls','Female').replace('Boys','Male')],
       ['Hostel',cfg.hostelName||selection.hostelId],['Room type',cfg.roomLabel||selection.roomCode],
       ['Semester fee',cfg.semesterFee>0?'₹'+cfg.semesterFee.toLocaleString('en-IN')+' <span style="font-size:11px;color:var(--muted)">(after confirmation)</span>':'TBC'],
-      ['Deposit paid','<strong>₹15,000</strong>'],
+      ['Seat Secure fee paid','<strong>₹15,000</strong>'],
       ['Transaction ref','<span style="font-family:monospace">'+txn+'</span>'],
       ['Submitted at',new Date().toLocaleString('en-IN')],
       ['Status','<span class="st-pill">⏳ Pending verification</span>']
