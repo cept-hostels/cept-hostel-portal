@@ -302,7 +302,7 @@ let db=null, student=null, selection=null;
 let timerInterval=null, lockExpiryTime=null;
 let fileB64='', fileName='';
 
-// ═══ INIT ═══
+// ═══ INIT ═══ 
 window.addEventListener('DOMContentLoaded', ()=>{
   showLoader('Loading portal...');
   fetch(API+'?action=getAll').then(r=>r.json()).then(d=>{
